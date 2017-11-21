@@ -1,21 +1,44 @@
-express = require('express'),
+express = require('express')
 app = express()
-port = process.env.PORT || 4000;
-mongoose = require('mongoose'),
-User = require('./model'),
-bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+port = process.env.PORT || 4000
+mongoose = require('mongoose')
+User = require('./model')
+bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 
 /*mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/ooodb');*/
 
+//routes (eventually can refactor to be more modular)
 app.get('/signup', function (req, res) {
-    res.send('GET request to /signup')
+	console.log(req.query);
+  res.send('GET request to /signup')
 })
 
 app.post('/signup', function (req, res) {
-    res.send('POST request to /signup')
+	console.log(req.body);
+  if(req.body.email){
+  	res.send('Email address')
+  } else {
+  	res.send('No email address')
+  }
+})
+
+app.get('/login', function (req, res) {
+  res.send('GET request to /login')
+})
+
+app.post('/login', function (req, res) {
+  res.send('POST request to /login')
+})
+
+app.get('/save', function (req, res) {
+  res.send('GET request to /save')
+})
+
+app.post('/save', function (req, res) {
+  res.send('POST request to /save')
 })
 
 app.listen(port);
