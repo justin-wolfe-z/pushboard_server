@@ -5,10 +5,14 @@ mongoose = require('mongoose')
 mongoose.Promise = Promise;
 User = require('./model')
 bodyParser = require('body-parser')
+fetch = require("node-fetch");
+hat = require('hat');
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-/*mongoose.connect('mongodb://localhost/')*/
+const constants = {
+  signupZap: 'https://hooks.zapier.com/hooks/catch/2003878/ssrlnv/'
+}
 
 const db_promise = mongoose.connect('mongodb://localhost/myapp', {
   useMongoClient: true,
@@ -31,12 +35,12 @@ app.post('/signup', function (req, res) {
     User.find({ email:req.body.email }, function(err, users){
       if(err) return console.error(err);
       if(users.length===0){
-        var user = new User({ email: req.body.email });
-        user.save(function (err) {
+        var user = new User({ email: req.body.email, key: hat()});
+        user.save(function (err,user) {
           if (err) {
-            console.log(err);
           } else {
             res.status(201).send("Created a new user account")
+            sendSignupEmail({email:user.email,key:user.key});
           }
         })  
       } else {
@@ -65,5 +69,16 @@ app.post('/save', function (req, res) {
 })
 
 app.listen(port);
+
+//helper functions (put these in another file and import them later)
+
+function sendSignupEmail(userInfo){
+  fetch(constants.signupZap, { method: 'POST', headers:{'Content-Type':'application/json'},body: JSON.stringify(userInfo) })
+      .then(function(res) {
+          return res.json();
+      }).then(function(json) {
+          console.log(json);
+      });
+}
 
 console.log('ooo RESTful API server started on: ' + port);

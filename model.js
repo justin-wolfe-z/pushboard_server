@@ -69,6 +69,7 @@ var Schema = mongoose.Schema
 
 var usersSchema = new Schema({
 	email: String,
+	key: String,
 	buttons: { type: Array, default: defaultButtons }
 });
 
