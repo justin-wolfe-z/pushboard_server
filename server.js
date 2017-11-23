@@ -11,6 +11,9 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 const constants = {
+  db:{
+    path: 'mongodb://localhost/myapp'
+  },
   zaps:{
     signup: 'https://hooks.zapier.com/hooks/catch/2003878/ssrlnv/',
     delete: '', 
@@ -19,7 +22,7 @@ const constants = {
   headers: {'Content-Type':'application/json'}
 }
 
-const db_promise = mongoose.connect('mongodb://localhost/myapp', {
+const db_promise = mongoose.connect(constants.db.path, {
   useMongoClient: true,
 });
 db_promise.then(function(db) {
@@ -39,11 +42,13 @@ app.post('/signup', function (req, res) {
         return console.error(err);
       }
       if(users.length===0){
-        var user = new User({ email: req.body.email, key: hat()});
+        var key = hat();
+        var user = new User({ email: req.body.email, key: key});
         user.save(function (err,user) {
           if (err) {
             res.status(500).send("Error creating a new account: " + err)
           } else {
+            console.log(user)
             res.status(201).send("Created a new user account")
             zapEmail(constants.zaps.signup, {email:user.email,key:user.key});
           }
@@ -62,6 +67,24 @@ app.get('/login', function (req, res) {
 })
 
 app.post('/login', function (req, res) {
+  if(req.body.email && req.body.key){
+    console.log("okay, got an email and a key")
+    User.find({ email:req.body.email }, function(err, users){
+      if(users.length===1){
+        if(users[0].key===req.body.key){
+          console.log("yay, api key is a match")
+          res.status(200).send("got a match")
+        } else {
+          console.log("boo, api key is not a match")
+          res.status(400).send("api key doesn't match")
+        }
+      } else {
+        console.log("no user with this email address")
+      }
+    })
+  } else {
+    res.status(409).send("Missing email or API key: please try logging in again")
+  }
 })
 
 app.get('/save', function (req, res) {
