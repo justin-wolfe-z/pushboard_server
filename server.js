@@ -12,23 +12,39 @@ app.use(bodyParser.json())
 
 const db_promise = mongoose.connect('mongodb://localhost/myapp', {
   useMongoClient: true,
-  /* other options */
 });
 db_promise.then(function(db) {
+  /*User.find(function (err, users) {
+    if (err) return console.error(err);
+    console.log("this is users that matched:")
+    console.log(users);
+  })*/
 });
 
 //routes (eventually can refactor to be more modular)
 app.get('/signup', function (req, res) {
-	console.log(req.query);
   res.send('GET request to /signup')
 })
 
 app.post('/signup', function (req, res) {
-	console.log(req.body);
   if(req.body.email){
-  	res.send('Email address')
+    User.find({ email:req.body.email }, function(err, users){
+      if(err) return console.error(err);
+      if(users.length===0){
+        var user = new User({ email: req.body.email });
+        user.save(function (err) {
+          if (err) {
+            console.log(err);
+          } else {
+            res.status(201).send("Created a new user account")
+          }
+        })  
+      } else {
+        res.status(409).send("This email address already has an account")
+      }
+    }); 
   } else {
-  	res.send('No email address')
+  	res.status(202).send('No email address')
   }
 })
 
