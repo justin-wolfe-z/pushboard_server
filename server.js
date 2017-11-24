@@ -5,7 +5,7 @@ mongoose = require('mongoose')
 mongoose.Promise = Promise;
 User = require('./model')
 bodyParser = require('body-parser')
-fetch = require("node-fetch");
+fetch = require('node-fetch');
 hat = require('hat');
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
@@ -38,7 +38,7 @@ app.post('/signup', function (req, res) {
   if(req.body.email){
     User.find({ email:req.body.email }, function(err, users){
       if(err){
-        res.status(500).send("Error querying the database: " + err)
+        res.status(500).send('Error querying the database: ' + err)
         return console.error(err);
       }
       if(users.length===0){
@@ -46,14 +46,14 @@ app.post('/signup', function (req, res) {
         var user = new User({ email: req.body.email, key: key});
         user.save(function (err,user) {
           if (err) {
-            res.status(500).send("Error creating a new account: " + err)
+            res.status(500).send('Error creating a new account: ' + err)
           } else {
-            res.status(201).send("Created a new user account")
+            res.status(201).send('Created a new user account. You should get an email with your API key in the next few minutes')
             zapEmail(constants.zaps.signup, {email:user.email,key:user.key});
           }
         })  
       } else {
-        res.status(409).send("This email address already has an account")
+        res.status(409).send('This email address already has an account')
       }
     }); 
   } else {
@@ -73,19 +73,19 @@ app.post('/login', function (req, res) {
           _id: 'REDACTED'
         });
         if(user.key===req.body.key){
-          console.log("yay, api key is a match")
+          console.log('yay, api key is a match')
           res.status(200).send(user);
         } else {
-          console.log("boo, api key is not a match")
-          res.status(400).send("api key doesn't match")
+          console.log('boo, api key is not a match')
+          res.status(400).send('api key doesn\'t match')
         }
       } else {
-        console.log("no user with this email address")
-        res.status(400).send("No user with this email address")
+        console.log('no user with this email address')
+        res.status(400).send('No user with this email address')
       }
     })
   } else {
-    res.status(409).send("Missing email or API key: please try logging in again")
+    res.status(409).send('Missing email or API key: please try logging in again')
   }
 })
 
