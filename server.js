@@ -7,6 +7,7 @@ User = require('./model')
 bodyParser = require('body-parser')
 fetch = require('node-fetch');
 hat = require('hat');
+util = require('util')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
@@ -36,7 +37,7 @@ app.get('/signup', function (req, res) {
 
 app.post('/signup', function (req, res) {
   if(req.body.email){
-    User.find({ email:req.body.email }, function(err, users){
+    User.find({ email:req.body.email }, (err, users) => {
       if(err){
         res.status(500).send('Error querying the database: ' + err)
         return console.error(err);
@@ -44,7 +45,7 @@ app.post('/signup', function (req, res) {
       if(users.length===0){
         var key = hat();
         var user = new User({ email: req.body.email, key: key});
-        user.save(function (err,user) {
+        user.save((err,user) => {
           if (err) {
             res.status(500).send('Error creating a new account: ' + err)
           } else {
@@ -67,20 +68,17 @@ app.get('/login', function (req, res) {
 
 app.post('/login', function (req, res) {
   if(req.body.email && req.body.key){
-    User.find({ email:req.body.email }, function(err, users){
+    User.find({ email:req.body.email }, (err, users) => {
       if(users.length===1){
         let user = Object.assign({}, users[0]._doc,{
           _id: 'REDACTED'
         });
         if(user.key===req.body.key){
-          console.log('yay, api key is a match')
           res.status(200).send(user);
         } else {
-          console.log('boo, api key is not a match')
           res.status(400).send('api key doesn\'t match')
         }
       } else {
-        console.log('no user with this email address')
         res.status(400).send('No user with this email address')
       }
     })
@@ -97,15 +95,19 @@ app.post('/save', function (req, res) {
 })
 
 app.listen(port);
+console.log('pushboard_server started on: ' + port);
 
 //helper functions (put these in another file and import them later)
-function zapEmail(zapURL, userInfo){
+const zapEmail = (zapURL, userInfo) => {
   fetch(zapURL, { method: 'POST', headers: constants.headers, body: JSON.stringify(userInfo) })
-      .then(function(res) {
+      .then((res) => {
           return res.json();
-      }).then(function(json) {
+      }).then((json) => {
           console.log(json);
+          return "something returned!"
       });
 }
 
-console.log('ooo RESTful API server started on: ' + port);
+
+
+
