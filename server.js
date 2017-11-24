@@ -48,7 +48,6 @@ app.post('/signup', function (req, res) {
           if (err) {
             res.status(500).send("Error creating a new account: " + err)
           } else {
-            console.log(user)
             res.status(201).send("Created a new user account")
             zapEmail(constants.zaps.signup, {email:user.email,key:user.key});
           }
@@ -68,18 +67,21 @@ app.get('/login', function (req, res) {
 
 app.post('/login', function (req, res) {
   if(req.body.email && req.body.key){
-    console.log("okay, got an email and a key")
     User.find({ email:req.body.email }, function(err, users){
       if(users.length===1){
-        if(users[0].key===req.body.key){
+        let user = Object.assign({}, users[0]._doc,{
+          _id: 'REDACTED'
+        });
+        if(user.key===req.body.key){
           console.log("yay, api key is a match")
-          res.status(200).send("got a match")
+          res.status(200).send(user);
         } else {
           console.log("boo, api key is not a match")
           res.status(400).send("api key doesn't match")
         }
       } else {
         console.log("no user with this email address")
+        res.status(400).send("No user with this email address")
       }
     })
   } else {
