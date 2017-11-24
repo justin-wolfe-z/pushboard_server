@@ -30,9 +30,10 @@ db_promise.then(function(db) {
   //if you want to do some logging or checking when the DB is initialized?
 });
 
-//routes (eventually can refactor to be more modular)
+//ROUTES (eventually can refactor to be more modular)
+
 //create new account
-app.post('/user', function (req, res) {
+app.post('/user', (req, res) => {
   if(req.body.email){
     User.find({ email:req.body.email }, (err, users) => {
       if(err){
@@ -58,8 +59,9 @@ app.post('/user', function (req, res) {
   	res.status(202).send('No email address included in request, can\'t create account')
   }
 })
+
 //get existing account
-app.get('/user', function (req, res) {
+app.get('/user', (req, res) => {
   if(req.query.email && req.query.key){
     User.find({ email:req.query.email }, (err, users) => {
       if(users.length===1){
@@ -80,8 +82,21 @@ app.get('/user', function (req, res) {
   }
 })
 
+//reset API key
+app.post('/reset', (req, res) => {
+})
 
-app.post('/save', function (req, res) {
+//push to zap trigger URLs
+app.post('/push', (req, res) => {
+})
+
+//save changes to buttons
+app.post('/save', (req, res) => {
+})
+
+//add zap trigger URL to button
+app.post('/register',  (req, res) => {
+
 })
 
 app.listen(port);
