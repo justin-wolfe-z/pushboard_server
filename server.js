@@ -31,11 +31,8 @@ db_promise.then(function(db) {
 });
 
 //routes (eventually can refactor to be more modular)
-app.get('/signup', function (req, res) {
-  res.send('GET request to /signup')
-})
-
-app.post('/signup', function (req, res) {
+//create new account
+app.post('/user', function (req, res) {
   if(req.body.email){
     User.find({ email:req.body.email }, (err, users) => {
       if(err){
@@ -54,26 +51,22 @@ app.post('/signup', function (req, res) {
           }
         })  
       } else {
-        res.status(409).send('This email address already has an account')
+        res.status(409).send('This email address is already associated with an account')
       }
     }); 
   } else {
-  	res.status(202).send('No email address')
+  	res.status(202).send('No email address included in request, can\'t create account')
   }
 })
-
-app.get('/login', function (req, res) {
-  res.send('GET request to /login')
-})
-
-app.post('/login', function (req, res) {
-  if(req.body.email && req.body.key){
-    User.find({ email:req.body.email }, (err, users) => {
+//get existing account
+app.get('/user', function (req, res) {
+  if(req.query.email && req.query.key){
+    User.find({ email:req.query.email }, (err, users) => {
       if(users.length===1){
         let user = Object.assign({}, users[0]._doc,{
           _id: 'REDACTED'
         });
-        if(user.key===req.body.key){
+        if(user.key===req.query.key){
           res.status(200).send(user);
         } else {
           res.status(400).send('api key doesn\'t match')
@@ -87,9 +80,6 @@ app.post('/login', function (req, res) {
   }
 })
 
-app.get('/save', function (req, res) {
-  res.send('GET request to /save')
-})
 
 app.post('/save', function (req, res) {
 })
