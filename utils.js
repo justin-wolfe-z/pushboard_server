@@ -11,26 +11,26 @@ const sendEmail = (zapURL, userInfo) => {
   });
 }
 
-const checkUser = (email,key) => {
+const checkUser = (email, key) => {
   return new Promise((resolve,reject)=>{
     User.find({ email : email }, (err, users) => {
       if (err){
         reject(err)
       } else {
         if (users.length===0){
-          resolve({count:0,body:''})
+          resolve({count:0, body:''})
         } else if (users.length===1){
           if(key){
             let user = Object.assign({}, users[0]._doc,{
               _id: 'REDACTED'
             });
             if(user.key===key){
-              resolve({count:1,auth:true,body:user})
+              resolve({count:1, auth:true, body:user})
             } else {
               reject('The API key you entered doesn\'t match')
             }            
           } else {
-            resolve({count:1,auth:false})
+            resolve({count:1, auth:false})
           }
         }
       }
@@ -58,7 +58,7 @@ const createUser = (email) => {
   })  
 }
 
-const updateUser = (id,type,fields) => {
+const updateUser = (id, type, fields) => {
   return new Promise((resolve,reject)=>{
 
   })
