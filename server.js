@@ -47,8 +47,16 @@ app.post('/user', (req, res) => {
           if (err) {
             res.status(500).send('Error creating a new account: ' + err)
           } else {
-            res.status(201).send('Created a new user account. You should get an email with your API key in the next few minutes')
-            zapEmail(constants.zaps.signup, {email:user.email,key:user.key});
+            //zapEmail(constants.zaps.signup, {email:user.email,key:user.key});
+            sendEmail(constants.zaps.signup, {email:user.email,key:user.key})
+              .then(data => {
+                console.log(data);
+                res.status(201).send('Created a new user account. You should get an email with your API key in the next few minutes')
+              })
+              .catch(err => {
+                console.log(err);
+                res.status(500).send('Error creating a new account: ' + err)
+              })
           }
         })  
       } else {
@@ -86,7 +94,7 @@ app.get('/user', (req, res) => {
 app.post('/reset', (req, res) => {
 })
 
-//push to zap trigger URLs
+//push to zap trigger URL(s)
 app.post('/push', (req, res) => {
 })
 
@@ -94,7 +102,7 @@ app.post('/push', (req, res) => {
 app.post('/save', (req, res) => {
 })
 
-//add zap trigger URL to button
+//add zap trigger URL to button URL array
 app.post('/register',  (req, res) => {
 
 })
@@ -102,15 +110,33 @@ app.post('/register',  (req, res) => {
 app.listen(port);
 console.log('pushboard_server started on: ' + port);
 
-//helper functions (put these in another file and import them later)
-const zapEmail = (zapURL, userInfo) => {
-  fetch(zapURL, { method: 'POST', headers: constants.headers, body: JSON.stringify(userInfo) })
+const sendEmail = (zapURL, userInfo) => {
+  return new Promise((resolve, reject)=>{
+      fetch(zapURL, { method: 'POST', headers: constants.headers, body: JSON.stringify(userInfo) })
       .then((res) => {
           return res.json();
       }).then((json) => {
-          console.log(json);
-          return "something returned!"
-      });
+        resolve(json);
+      }).catch((err) => {
+        reject(err);
+      })
+  });
+}
+
+const checkRequest = (email, key) => {
+  return new Promise((resolve,reject)=>{
+    User.find({ email:email }, (err, users) => {
+      if (err){
+        reject(err)
+      } else {
+        if (users.length===0){
+          resolve("no user")
+        } else if (users.length===1){
+          resolve(users[0])
+        }
+      }
+    })
+  })
 }
 
 
