@@ -11,6 +11,7 @@ util = require('util')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
+//move these to another file later
 const constants = {
   db:{
     path: 'mongodb://localhost/myapp'
@@ -30,7 +31,7 @@ db_promise.then(function(db) {
   //if you want to do some logging or checking when the DB is initialized?
 });
 
-//ROUTES (eventually can refactor to be more modular)
+//ROUTES 
 
 //create new account
 app.post('/user', (req, res) => {
@@ -38,7 +39,7 @@ app.post('/user', (req, res) => {
     checkUser(req.body.email)
       .then(data => {
         if(data.count===0){
-          createUser()
+          createUser(req.body.email)
             .then(data =>{
               res.status(201).send('Created a new user account. You should get an email with your API key in the next few minutes :)')
             })
@@ -56,56 +57,19 @@ app.post('/user', (req, res) => {
     res.status(202).send('No email address included in request, can\'t create account')
   }
 })
-/*app.post('/user', (req, res) => {
-  if(req.body.email){
-    User.find({ email:req.body.email }, (err, users) => {
-      if(err){
-        res.status(500).send('Error querying the database: ' + err)
-        return console.error(err);
-      }
-      if(users.length===0){
-        var key = hat();
-        var user = new User({ email: req.body.email, key: key});
-        user.save((err,user) => {
-          if (err) {
-            res.status(500).send('Error creating a new account: ' + err)
-          } else {
-            //zapEmail(constants.zaps.signup, {email:user.email,key:user.key});
-            sendEmail(constants.zaps.signup, {email:user.email,key:user.key})
-              .then(data => {
-                res.status(201).send('Created a new user account. You should get an email with your API key in the next few minutes')
-              })
-              .catch(err => {
-                res.status(500).send('Error creating a new account: ' + err)
-              })
-          }
-        })  
-      } else {
-        res.status(409).send('This email address is already associated with an account')
-      }
-    }); 
-  } else {
-  	res.status(202).send('No email address included in request, can\'t create account')
-  }
-})*/
 
-//get existing account
+//gets existing account
 app.get('/user', (req, res) => {
   if(req.query.email && req.query.key){
-    User.find({ email:req.query.email }, (err, users) => {
-      if(users.length===1){
-        let user = Object.assign({}, users[0]._doc,{
-          _id: 'REDACTED'
-        });
-        if(user.key===req.query.key){
-          res.status(200).send(user);
-        } else {
-          res.status(400).send('api key doesn\'t match')
+    checkUser(req.query.email, req.query.key)
+      .then(data =>{
+        if(data.auth===true){
+          res.status(200).send(data.body);
         }
-      } else {
-        res.status(400).send('No user with this email address')
-      }
-    })
+      })
+      .catch(err =>{
+        res.status(400).send('API key doesn\'t match :(')
+      })
   } else {
     res.status(409).send('Missing email or API key: please try logging in again')
   }
@@ -136,7 +100,7 @@ const sendEmail = (zapURL, userInfo) => {
   return new Promise((resolve, reject)=>{
       fetch(zapURL, { method: 'POST', headers: constants.headers, body: JSON.stringify(userInfo) })
       .then((res) => {
-          return res.json();
+        return res.json();
       }).then((json) => {
         resolve(json);
       }).catch((err) => {
@@ -145,7 +109,7 @@ const sendEmail = (zapURL, userInfo) => {
   });
 }
 
-const checkUser = (email) => {
+const checkUser = (email,key) => {
   return new Promise((resolve,reject)=>{
     User.find({ email : email }, (err, users) => {
       if (err){
@@ -154,7 +118,18 @@ const checkUser = (email) => {
         if (users.length===0){
           resolve({count:0,body:''})
         } else if (users.length===1){
-          resolve({count:1,msg:users[0]})
+          if(key){
+            let user = Object.assign({}, users[0]._doc,{
+              _id: 'REDACTED'
+            });
+            if(user.key===key){
+              resolve({count:1,auth:true,body:user})
+            } else {
+              reject('The API key you entered doesn\'t match')
+            }            
+          } else {
+            resolve({count:1,auth:false})
+          }
         }
       }
     })
