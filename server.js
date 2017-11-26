@@ -35,6 +35,29 @@ db_promise.then(function(db) {
 //create new account
 app.post('/user', (req, res) => {
   if(req.body.email){
+    checkUser(req.body.email)
+      .then(data => {
+        if(data.count===0){
+          createUser()
+            .then(data =>{
+              res.status(201).send('Created a new user account. You should get an email with your API key in the next few minutes :)')
+            })
+            .catch(err =>{
+              res.status(500).send('Error creating a new account: ' + err)
+            })
+        } else {
+          res.status(409).send('This email address is already associated with an account')
+        }
+      })
+      .catch(err => {
+        res.status(500).send('Error querying the database: ' + err)
+      })
+  } else {
+    res.status(202).send('No email address included in request, can\'t create account')
+  }
+})
+/*app.post('/user', (req, res) => {
+  if(req.body.email){
     User.find({ email:req.body.email }, (err, users) => {
       if(err){
         res.status(500).send('Error querying the database: ' + err)
@@ -50,11 +73,9 @@ app.post('/user', (req, res) => {
             //zapEmail(constants.zaps.signup, {email:user.email,key:user.key});
             sendEmail(constants.zaps.signup, {email:user.email,key:user.key})
               .then(data => {
-                console.log(data);
                 res.status(201).send('Created a new user account. You should get an email with your API key in the next few minutes')
               })
               .catch(err => {
-                console.log(err);
                 res.status(500).send('Error creating a new account: ' + err)
               })
           }
@@ -66,7 +87,7 @@ app.post('/user', (req, res) => {
   } else {
   	res.status(202).send('No email address included in request, can\'t create account')
   }
-})
+})*/
 
 //get existing account
 app.get('/user', (req, res) => {
@@ -110,6 +131,7 @@ app.post('/register',  (req, res) => {
 app.listen(port);
 console.log('pushboard_server started on: ' + port);
 
+//move these helper functions to a different file and import them later
 const sendEmail = (zapURL, userInfo) => {
   return new Promise((resolve, reject)=>{
       fetch(zapURL, { method: 'POST', headers: constants.headers, body: JSON.stringify(userInfo) })
@@ -123,20 +145,40 @@ const sendEmail = (zapURL, userInfo) => {
   });
 }
 
-const checkRequest = (email, key) => {
+const checkUser = (email) => {
   return new Promise((resolve,reject)=>{
-    User.find({ email:email }, (err, users) => {
+    User.find({ email : email }, (err, users) => {
       if (err){
         reject(err)
       } else {
         if (users.length===0){
-          resolve("no user")
+          resolve({count:0,body:''})
         } else if (users.length===1){
-          resolve(users[0])
+          resolve({count:1,msg:users[0]})
         }
       }
     })
   })
+}
+
+const createUser = (email) => {
+  return new Promise((resolve,reject)=>{
+    var key = hat();
+    var user = new User({ email: email, key: key});
+    user.save((err,user) => {
+      if (err) {
+        reject(err)
+      } else {
+        sendEmail(constants.zaps.signup, {email:user.email,key:user.key})
+          .then(data => {
+            resolve()
+          })
+          .catch(err => {
+            reject(err)
+          })
+      }
+    })      
+  })  
 }
 
 
