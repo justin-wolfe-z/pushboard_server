@@ -1,14 +1,14 @@
 express = require('express')
 app = express()
-port = process.env.PORT || 4000
-mongoose = require('mongoose')
-mongoose.Promise = Promise;
 User = require('./model')
 constants = require('./constants')
 utils = require('./utils')
-bodyParser = require('body-parser')
+port = process.env.PORT || constants.port
+mongoose = require('mongoose')
+mongoose.Promise = Promise;
 fetch = require('node-fetch');
 hat = require('hat');
+bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
@@ -66,6 +66,37 @@ app.get('/user', (req, res) => {
 
 //reset API key
 app.post('/reset', (req, res) => {
+  if(req.body.email){
+    utils.checkUser(req.body.email)
+      .then(data =>{
+        console.log(data.count);
+        if(data.count===1){
+          let newKey = hat()
+          let query = {email:req.body.email}
+          let update = {key:newKey}
+          utils.updateUser(query,update)
+            .then(data => {
+              utils.sendEmail(constants.zaps.signup, {email:req.body.email,key:newKey})
+                .then(data => {
+                  res.status(200).send('Reset your API key. You should get an email with your API key in the next few minutes :)')
+                })
+                .catch(err => {
+                  res.status(500).send('Error sending an email with your new API key: ' + err)
+                })             
+            })
+            .catch(err => {
+              res.status(500).send('Error updating the database: ' + err)
+            })
+        } else if (data.count===0){
+          res.status(400).send('No account with that email address')
+        }
+      })
+      .catch(err =>{
+        res.status(500).send('Error querying the database: ' + err)
+      })
+  } else {
+    res.status(409).send('Missing email or API key: please try logging in again')
+  }  
 })
 
 //push to zap trigger URL(s)
@@ -84,7 +115,6 @@ app.post('/register',  (req, res) => {
 app.listen(port);
 console.log('pushboard_server started on: ' + port);
 
-//move these helper functions to a different file and import them later
 
 
 

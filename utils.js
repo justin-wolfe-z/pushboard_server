@@ -58,15 +58,22 @@ const createUser = (email) => {
   })  
 }
 
-const updateUser = (id, type, fields) => {
+const updateUser = (query, update) => {
+  console.log("is this running?")
   return new Promise((resolve,reject)=>{
-
+    User.update(query,update, (err, raw) => {
+      if(err) {
+        reject(err)
+      } else {
+        resolve(raw)
+      }
+    })
   })
 }
 
 module.exports = {
-  sendEmail,
   checkUser,
   createUser,
-  updateUser
+  updateUser,
+  sendEmail
 }
