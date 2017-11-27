@@ -57,7 +57,7 @@ app.get('/user', (req, res) => {
         }
       })
       .catch(err =>{
-        res.status(400).send('API key doesn\'t match :(')
+        res.status(400).send('Your API key doesn\'t match :(')
       })
   } else {
     res.status(409).send('Missing email or API key: please try logging in again')
@@ -101,13 +101,37 @@ app.post('/reset', (req, res) => {
 
 //push to zap trigger URL(s)
 app.post('/push', (req, res) => {
+
 })
 
 //save changes to buttons
 app.post('/save', (req, res) => {
+  if(req.body.email && req.body.key && req.body.buttons){
+    utils.checkUser(req.body.email,req.body.key)
+      .then(data =>{
+        if(data.auth===true){
+          let query = {email: req.body.email}
+          let update = {buttons: req.body.buttons}
+          utils.updateUser(query,update)
+            .then(data => {
+              res.status(200).send("Updated buttons in database")
+            })
+            .catch(data => {
+              res.status(500).send("Error updating the database: " + err)
+            })
+        } else {
+          res.status(400).send('Your API key doesn\'t match :(')
+        }
+      })
+      .catch(err =>{
+        res.status(500).send('Error querying the database: ' + err)
+      })
+  } else {
+
+  }  
 })
 
-//add zap trigger URL to button URL array
+//register zap trigger URLs for pushing
 app.post('/register',  (req, res) => {
 
 })
