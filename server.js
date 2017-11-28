@@ -106,12 +106,20 @@ app.post('/push', (req, res) => {
 
 //save changes to buttons
 app.post('/save', (req, res) => {
-  if(req.body.email && req.body.key && req.body.buttons){
+  if(req.body.email && req.body.key && req.body.button){
     utils.checkUser(req.body.email,req.body.key)
       .then(data =>{
         if(data.auth===true){
           let query = {email: req.body.email}
-          let update = {buttons: req.body.buttons}
+          let currentButtons = data.body.buttons
+          let buttonUpdate = JSON.parse(req.body.button);
+          let updatedButton = Object.assign({}, currentButtons[buttonUpdate.id],{
+            icon: buttonUpdate.icon,
+            type: buttonUpdate.type,
+            text: buttonUpdate.text
+          })
+          currentButtons[buttonUpdate.id] = updatedButton
+          let update = {buttons: currentButtons}          
           utils.updateUser(query,update)
             .then(data => {
               res.status(200).send("Updated buttons in database")
@@ -127,7 +135,7 @@ app.post('/save', (req, res) => {
         res.status(500).send('Error querying the database: ' + err)
       })
   } else {
-
+    res.status(409).send('Missing email or API key or array of buttons: please try again')
   }  
 })
 
