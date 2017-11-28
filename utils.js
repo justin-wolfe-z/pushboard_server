@@ -18,7 +18,7 @@ const checkUser = (email, key) => {
         reject(err)
       } else {
         if (users.length===0){
-          resolve({count:0, body:''})
+          resolve({count:0, auth: false, body:''})
         } else if (users.length===1){
           if(key){
             let user = Object.assign({}, users[0]._doc,{
@@ -58,6 +58,26 @@ const createUser = (email) => {
   })  
 }
 
+const updateButton = (email,buttons,updater) => {
+  return new Promise((resolve,reject)=>{
+    let query = {email: email}
+    let updatedButton = Object.assign({}, buttons[updater.id],{
+      icon: updater.icon,
+      type: updater.type,
+      text: updater.text
+    })
+    buttons[updater.id] = updatedButton
+    let update = {buttons: buttons}          
+    updateUser(query,update)
+      .then(data => {
+        resolve()
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
 const updateUser = (query, update) => {
   return new Promise((resolve,reject)=>{
     User.update(query,update, (err, raw) => {
@@ -74,5 +94,6 @@ module.exports = {
   sendEmail,
   checkUser,
   createUser,
-  updateUser
+  updateUser,
+  updateButton
 }

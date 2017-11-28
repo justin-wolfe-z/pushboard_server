@@ -23,6 +23,7 @@ db_promise.then(function(db) {
 //ROUTES 
 
 //TODO : move logic for req param presence from routes into checkUser util (just pass it the req object)
+//can also do this for the data.count logic perhaps? though that's trickier
 
 //create new account
 app.post('/user', (req, res) => {
@@ -112,21 +113,12 @@ app.post('/save', (req, res) => {
     utils.checkUser(req.body.email,req.body.key)
       .then(data =>{
         if(data.auth===true){
-          let query = {email: req.body.email}
-          let currentButtons = data.body.buttons
-          let buttonUpdate = JSON.parse(req.body.button);
-          let updatedButton = Object.assign({}, currentButtons[buttonUpdate.id],{
-            icon: buttonUpdate.icon,
-            type: buttonUpdate.type,
-            text: buttonUpdate.text
-          })
-          currentButtons[buttonUpdate.id] = updatedButton
-          let update = {buttons: currentButtons}          
-          utils.updateUser(query,update)
-            .then(data => {
+          let updater = JSON.parse(req.body.button);
+          utils.updateButton(req.body.email, data.body.buttons, updater)
+            .then(data =>{
               res.status(200).send("Updated buttons in database")
             })
-            .catch(data => {
+            .catch(err =>{
               res.status(500).send("Error updating the database: " + err)
             })
         } else {
