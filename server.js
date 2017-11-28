@@ -22,6 +22,8 @@ db_promise.then(function(db) {
 
 //ROUTES 
 
+//TODO : move logic for req param presence from routes into checkUser util (just pass it the req object)
+
 //create new account
 app.post('/user', (req, res) => {
   if(req.body.email){
@@ -69,7 +71,6 @@ app.post('/reset', (req, res) => {
   if(req.body.email){
     utils.checkUser(req.body.email)
       .then(data =>{
-        console.log(data.count);
         if(data.count===1){
           let newKey = hat()
           let query = {email:req.body.email}
@@ -100,6 +101,7 @@ app.post('/reset', (req, res) => {
 })
 
 //push to zap trigger URL(s)
+//can use Promise.all for this?
 app.post('/push', (req, res) => {
 
 })
@@ -135,11 +137,12 @@ app.post('/save', (req, res) => {
         res.status(500).send('Error querying the database: ' + err)
       })
   } else {
-    res.status(409).send('Missing email or API key or array of buttons: please try again')
+    res.status(409).send('Missing email or API key or button update: please try again')
   }  
 })
 
 //register zap trigger URLs for pushing
+//will need CLI app to test but can start based on docs
 app.post('/register',  (req, res) => {
 
 })
