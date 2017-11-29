@@ -23,7 +23,7 @@ db_promise.then(function(db) {
 //ROUTES 
 
 //TODO : move logic for req param presence from routes into checkUser util (just pass it the req object)
-//can also do this for the data.count logic perhaps? though that's trickier
+//can also do this for the data.count logic perhaps? though that's a bittrickier
 
 //create new account
 app.post('/user', (req, res) => {
@@ -104,7 +104,20 @@ app.post('/reset', (req, res) => {
 //push to zap trigger URL(s)
 //can use Promise.all for this?
 app.post('/push', (req, res) => {
-
+  if(req.body.email && req.body.key && req.body.button){
+    utils.checkUser(req.body.email,req.body.key)
+      .then(data =>{
+        var button = JSON.parse(req.body.button);
+        var promiseArray = utils.createPushArray(data.body.buttons[button.id]);
+        console.log(promiseArray);
+        res.status(200).send('Promise Array :' + promiseArray)
+      })
+      .catch(err =>{
+        res.status(500).send('Error querying the database: ' + err)
+      })  
+  } else {
+    res.status(409).send('Missing email or API key or button update: please try again')
+  }
 })
 
 //save changes to buttons

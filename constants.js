@@ -17,7 +17,7 @@ const constants = {
 			icon:"smiley",
 			type:"static",
 			text:"",
-			hookURL:[]
+			hookURL:['https://requestb.in/1ccgflb1','https://requestb.in/15djspa1?inspect','https://requestb.in/1ew3uw31']
 		},
 		{
 			id:1,

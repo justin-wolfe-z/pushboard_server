@@ -90,10 +90,48 @@ const updateUser = (query, update) => {
   })
 }
 
+//create array of promises to resolve with promise all
+const createPushArray = (button) => {
+  console.log('createPushArray')
+  let promiseArr = [];
+  for(let hook of button.hookURL){
+    promiseArr.push(createPushPromise(button,hook))
+  }
+  return promiseArr
+}
+
+//create the individual promises to go in that array
+const createPushPromise = (button,URL) => {
+  return new Promise((resolve,reject)=>{
+    fetch(URL, { method: 'POST', headers: constants.headers, body: JSON.stringify(button)})
+      .then((res) => {
+        return res.json();
+      }).then((json) => {
+        resolve(json);
+      }).catch((err) => {
+        reject(err);
+      })    
+  })
+}
+
+//push all the promises
+const push = (promiseArr) => {
+  Promise.all(promiseArr)
+    .then(data => {
+      resolve(data)
+    })
+    .catch(err =>{
+      reject(err)
+    })
+}
+
 module.exports = {
   sendEmail,
   checkUser,
   createUser,
   updateUser,
-  updateButton
+  updateButton,
+  createPushPromise,
+  createPushArray,
+  push
 }
