@@ -90,39 +90,25 @@ const updateUser = (query, update) => {
   })
 }
 
-//create array of promises to resolve with promise all
-const createPushArray = (button) => {
-  console.log('createPushArray')
-  let promiseArr = [];
-  for(let hook of button.hookURL){
-    promiseArr.push(createPushPromise(button,hook))
-  }
-  return promiseArr
-}
-
-//create the individual promises to go in that array
-const createPushPromise = (button,URL) => {
+//https://stackoverflow.com/questions/41508036/fetch-multiple-promises-return-only-one?rq=1#41516919
+const push2 = (linkArr,button) => {
   return new Promise((resolve,reject)=>{
-    fetch(URL, { method: 'POST', headers: constants.headers, body: JSON.stringify(button)})
-      .then((res) => {
-        return res.json();
-      }).then((json) => {
-        resolve(json);
-      }).catch((err) => {
-        reject(err);
-      })    
+    Promise.all(linkArr.map((link) => {
+        fetch(link, { method: 'POST', headers: constants.headers, body: JSON.stringify({"id":"test"})})
+        .then((response) => {
+          return response.json();
+        }).then((data) => {
+          output.push(data)
+          return data
+        }).catch((err) => {
+          return err
+        });
+    })).then((values)=> {
+      resolve("test");
+    }).catch((values) =>{
+      reject("test")
+    })
   })
-}
-
-//push all the promises
-const push = (promiseArr) => {
-  Promise.all(promiseArr)
-    .then(data => {
-      resolve(data)
-    })
-    .catch(err =>{
-      reject(err)
-    })
 }
 
 module.exports = {
@@ -131,7 +117,5 @@ module.exports = {
   createUser,
   updateUser,
   updateButton,
-  createPushPromise,
-  createPushArray,
-  push
+  push2
 }

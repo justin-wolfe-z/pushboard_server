@@ -108,9 +108,14 @@ app.post('/push', (req, res) => {
     utils.checkUser(req.body.email,req.body.key)
       .then(data =>{
         var button = JSON.parse(req.body.button);
-        var promiseArray = utils.createPushArray(data.body.buttons[button.id]);
-        console.log(promiseArray);
-        res.status(200).send('Promise Array :' + promiseArray)
+        utils.push2(data.body.buttons[button.id].hookURL)
+          .then(data =>{
+            console.log("THEN values",values)
+          })
+          .catch(err =>{
+            console.log("THEN err",err)
+          })
+        res.status(200).send('blah')
       })
       .catch(err =>{
         res.status(500).send('Error querying the database: ' + err)
