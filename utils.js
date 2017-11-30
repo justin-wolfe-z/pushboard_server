@@ -90,32 +90,10 @@ const updateUser = (query, update) => {
   })
 }
 
-//https://stackoverflow.com/questions/41508036/fetch-multiple-promises-return-only-one?rq=1#41516919
-const push2 = (linkArr,button) => {
-  return new Promise((resolve,reject)=>{
-    Promise.all(linkArr.map((link) => {
-        fetch(link, { method: 'POST', headers: constants.headers, body: JSON.stringify({"id":"test"})})
-        .then((response) => {
-          return response.json();
-        }).then((data) => {
-          output.push(data)
-          return data
-        }).catch((err) => {
-          return err
-        });
-    })).then((values)=> {
-      resolve("test");
-    }).catch((values) =>{
-      reject("test")
-    })
-  })
-}
-
 module.exports = {
   sendEmail,
   checkUser,
   createUser,
   updateUser,
-  updateButton,
-  push2
+  updateButton
 }
