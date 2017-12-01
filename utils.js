@@ -103,7 +103,7 @@ const push = (linkArr,button) => {
         .then(response => {
           return response.json()
         }).then(json => {
-          console.log(json)
+          json.link = link
           return json
         }).catch(err => {
           return err

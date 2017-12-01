@@ -119,6 +119,11 @@ app.post('/register',  (req, res) => {
 
 })
 
+//remove zap trigger URLs if Zap is deleted/turned off
+app.post('/delete',  (req, res) => {
+
+})
+
 app.listen(port);
 console.log('pushboard_server started on: ' + port);
 
