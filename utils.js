@@ -11,30 +11,36 @@ const sendEmail = (zapURL, userInfo) => {
   });
 }
 
-const checkUser = (email, key) => {
+const checkUser = (req) => {
   return new Promise((resolve,reject)=>{
-    User.find({ email : email }, (err, users) => {
-      if (err){
-        reject(err)
-      } else {
-        if (users.length===0){
-          resolve({count:0, auth: false, body:''})
-        } else if (users.length===1){
-          if(key){
-            let user = Object.assign({}, users[0]._doc,{
-              _id: 'REDACTED'
-            });
-            if(user.key===key){
-              resolve({count:1, auth:true, body:user})
+    if(req.body.email){
+      let email = req.body.email
+      User.find({ email : email }, (err, users) => {
+        if (err){
+          reject(err)
+        } else {
+          if (users.length===0){
+            resolve({count:0, auth: false, body:''})
+          } else if (users.length===1){
+            if(req.body.key){
+              let key = req.body.key
+              let user = Object.assign({}, users[0]._doc,{
+                _id: 'REDACTED'
+              });
+              if(user.key===key){
+                resolve({count:1, auth:true, body:user})
+              } else {
+                reject('The API key you entered doesn\'t match')
+              }            
             } else {
-              reject('The API key you entered doesn\'t match')
-            }            
-          } else {
-            resolve({count:1, auth:false})
+              resolve({count:1, auth:false})
+            }
           }
         }
-      }
-    })
+      })
+    } else {
+      reject('You didn\'t include an email address')
+    }
   })
 }
 
@@ -90,10 +96,10 @@ const updateUser = (query, update) => {
   })
 }
 
-const push2 = (linkArr,button) => {
+const push = (linkArr,button) => {
   return new Promise((resolve,reject)=>{
     Promise.all(linkArr.map((link) => 
-      fetch(link, { method: 'POST', headers: constants.headers, body: JSON.stringify({"id":"test"})})
+      fetch(link, { method: 'POST', headers: constants.headers, body: JSON.stringify(button)})
         .then(response => {
           return response.json()
         }).then(json => {
@@ -118,5 +124,5 @@ module.exports = {
   createUser,
   updateUser,
   updateButton,
-  push2
+  push
 }
