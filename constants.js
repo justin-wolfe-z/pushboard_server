@@ -6,9 +6,11 @@ const constants = {
   },
   port:4000,
   zaps:{
-    email: 'https://hooks.zapier.com/hooks/catch/2003878/ssrlnv/',
-    delete: '', 
-    reset: ''  
+    email: 'https://hooks.zapier.com/hooks/catch/2003878/ssrlnv/'
+  },
+  emails:{
+  	signup: 'Thanks for signing up to Pushboard! Your account information is:',
+  	reset: 'Your API key has been reset. Your account information is: '
   },
   headers: {'Content-Type':'application/json'},
   defaultButtons : [
