@@ -36,7 +36,7 @@ app.post('/user', (req, res) => {
     .catch(err => res.status(400).send('Error validating user account: ' + err))
 })
 
-//gets existing account
+//get existing account
 app.get('/user', (req, res) => {
   req.body = req.query
   utils.checkUser(req)
@@ -94,7 +94,6 @@ app.post('/save', (req, res) => {
 })
 
 //register zap trigger URLs for pushing
-//will need CLI app to test but can start based on docs
 app.post('/register',  (req, res) => {
 
 })
