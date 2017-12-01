@@ -90,10 +90,33 @@ const updateUser = (query, update) => {
   })
 }
 
+const push2 = (linkArr,button) => {
+  return new Promise((resolve,reject)=>{
+    Promise.all(linkArr.map((link) => 
+      fetch(link, { method: 'POST', headers: constants.headers, body: JSON.stringify({"id":"test"})})
+        .then(response => {
+          return response.json()
+        }).then(json => {
+          console.log(json)
+          return json
+        }).catch(err => {
+          return err
+        })
+    ))
+    .then(results => {
+      resolve(results)
+    })
+    .catch(err => {
+      reject(err)
+    })
+  })
+}
+
 module.exports = {
   sendEmail,
   checkUser,
   createUser,
   updateUser,
-  updateButton
+  updateButton,
+  push2
 }

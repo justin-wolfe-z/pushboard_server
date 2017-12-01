@@ -108,21 +108,13 @@ app.post('/push', (req, res) => {
     utils.checkUser(req.body.email,req.body.key)
       .then(data =>{
         var button = JSON.parse(req.body.button);
-        Promise.all(data.body.buttons[button.id].hookURL.map((link) => 
-          fetch(link, { method: 'POST', headers: constants.headers, body: JSON.stringify({"id":"test"})})
-            .then(response => {
-              return response.json()
-            }).then(json => {
-              console.log(json)
-              return json
-            }).catch(err => {
-              return err
-            })
-        ))
-        .then(results => {
-          console.log(results)
-          res.status(200).send(results)
-        })
+        utils.push2(data.body.buttons[button.id].hookURL, button)
+          .then(data=>{
+            res.status(200).send(data)
+          })
+          .catch(err=>{
+            res.status(500).send('Error sending the push requests: ' + err)
+          })
       })
       .catch(err =>{
         res.status(500).send('Error querying the database: ' + err)
