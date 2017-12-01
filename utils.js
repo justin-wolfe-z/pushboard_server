@@ -1,3 +1,5 @@
+hat = require('hat');
+
 const sendEmail = (zapURL, userInfo) => {
   return new Promise((resolve, reject)=>{
       fetch(zapURL, { method: 'POST', headers: constants.headers, body: JSON.stringify(userInfo) })
@@ -90,9 +92,26 @@ const updateUser = (query, update) => {
       if(err) {
         reject(err)
       } else {
+        raw.query = query
+        raw.update = update
         resolve(raw)
       }
     })
+  })
+}
+
+const resetKey = (email) => {
+  return new Promise((resolve,reject)=>{
+    let newKey = hat()
+    let query = {email:email}
+    let update = {key:newKey}
+    utils.updateUser(query,update)
+      .then(data => {
+        resolve(data)            
+      })
+      .catch(err => {
+        reject(err)
+      })
   })
 }
 
@@ -124,5 +143,6 @@ module.exports = {
   createUser,
   updateUser,
   updateButton,
+  resetKey,
   push
 }

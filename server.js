@@ -19,8 +19,7 @@ const db_promise = mongoose.connect(constants.db.path, {
 db_promise.then(function(db) {
 });
 
-//ROUTES 
-//TODO - move API key reset into a util
+//ROUTES
 
 //create new account
 app.post('/user', (req, res) => {
@@ -43,8 +42,6 @@ app.post('/user', (req, res) => {
 
 //gets existing account
 app.get('/user', (req, res) => {
-  //cheat here because this is the only get route 
-  //but i don't want to have to add the extra logic to differentiate between req.body and req.query
   req.body = req.query
   utils.checkUser(req)
     .then(data =>{
@@ -61,23 +58,14 @@ app.get('/user', (req, res) => {
 app.post('/reset', (req, res) => {
   utils.checkUser(req)
     .then(data =>{
-      if(data.count===1 && data.auth==true){
-        let newKey = hat()
-        let query = {email:req.body.email}
-        let update = {key:newKey}
-        utils.updateUser(query,update)
+      if(data.count===1){
+        utils.resetKey(req.body.email)
           .then(data => {
-            utils.sendEmail(constants.zaps.signup, {email:req.body.email,key:newKey})
-              .then(data => {
-                res.status(200).send('Reset your API key. You should get an email with your API key in the next few minutes :)')
-              })
-              .catch(err => {
-                res.status(500).send('Error sending an email with your new API key: ' + err)
-              })             
+            utils.sendEmail(constants.zaps.signup, {email:req.body.email,key:data.update.key})
+              .then(data => res.status(200).send('Reset your API key. You should get an email with your API key in the next few minutes :)'))
+              .catch(err => res.status(500).send('Error sending an email with your new API key: ' + err))  
           })
-          .catch(err => {
-            res.status(500).send('Error updating the database: ' + err)
-          })
+          .catch(err => res.status(500).send())
       } else if (data.count===0){
         res.status(400).send('No account with that email address')
       }
