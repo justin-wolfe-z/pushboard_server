@@ -6,7 +6,7 @@ const constants = {
   },
   port:4000,
   zaps:{
-    signup: 'https://hooks.zapier.com/hooks/catch/2003878/ssrlnv/',
+    email: 'https://hooks.zapier.com/hooks/catch/2003878/ssrlnv/',
     delete: '', 
     reset: ''  
   },

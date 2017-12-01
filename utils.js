@@ -54,7 +54,7 @@ const createUser = (email) => {
       if (err) {
         reject(err)
       } else {
-        sendEmail(constants.zaps.signup, {email:user.email,key:user.key})
+        sendEmail(constants.zaps.email, {email:user.email,key:user.key})
           .then(data => {
             resolve()
           })
@@ -107,7 +107,9 @@ const resetKey = (email) => {
     let update = {key:newKey}
     utils.updateUser(query,update)
       .then(data => {
-        resolve(data)            
+        sendEmail(constants.zaps.email, {email:data.query.email,key:data.update.key})
+          .then(data => resolve(data))
+          .catch(err => reject(err))           
       })
       .catch(err => {
         reject(err)
