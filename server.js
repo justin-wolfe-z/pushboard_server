@@ -23,6 +23,7 @@ db_promise.then(function(db) {
 
 //create new account
 app.post('/user', (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
   utils.checkUser(req)
     .then(data => {
       if(data.count===0){
@@ -38,6 +39,8 @@ app.post('/user', (req, res) => {
 
 //get existing account
 app.get('/user', (req, res) => {
+  console.log(req.headers);
+  res.setHeader('Access-Control-Allow-Origin', '*');
   req.body = req.query
   utils.checkUser(req)
     .then(data =>{
@@ -52,6 +55,7 @@ app.get('/user', (req, res) => {
 
 //reset API key
 app.post('/reset', (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
   utils.checkUser(req)
     .then(data =>{
       if(data.count===1){
