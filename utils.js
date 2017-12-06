@@ -139,6 +139,45 @@ const push = (linkArr,button) => {
   })
 }
 
+const prepReqMiddle = (req,res,next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  next()
+}
+
+const checkUserMiddle = (req,res,next) => {
+  if(req.headers.authorization){
+    let arr = req.headers.authorization.split(':')
+    let email = arr[0]
+    let key = arr[1]
+    User.find({ email : email }, (err, users) => {
+      if (err){res.status(500).send("Error accessing the database: " + err)
+      } else {
+        if (users.length===0){
+          req.checked = {count:0, auth: false, body:'', email: email}
+          next()
+        } else if (users.length===1){
+          if(key){
+            let user = Object.assign({}, users[0]._doc,{
+              _id: 'REDACTED'
+            });
+            if(user.key===key){
+              req.checked = {count:1, auth:true, body:user, email: email}
+              next()
+            } else {
+              res.status(400).send("The API key you entered doesn't match the database")
+            }            
+          } else {
+            req.checked = {count:1, auth:false, email: email}
+            next()
+          }
+        }
+      }
+    })
+  } else {
+    res.status(400).send("Authorization header not included")
+  }
+}
+
 module.exports = {
   sendEmail,
   checkUser,
@@ -146,5 +185,7 @@ module.exports = {
   updateUser,
   updateButton,
   resetKey,
-  push
+  push,
+  prepReqMiddle,
+  checkUserMiddle
 }
