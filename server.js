@@ -14,7 +14,11 @@ bodyParser = require('body-parser')
 //application level middleware
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
-app.use(utils.prepReqMiddle)
+//allowCrossDomainMiddle is middleware that handles cross-domain requests (including the preflight request)
+app.use(utils.allowCrossDomainMiddle)
+//checkUserMiddle is middleware set up to check creds in Authorization header 
+//and return a "checked" object on the request going into the route handler
+//which is used to determine user status for the actions of the route handler
 app.use(utils.checkUserMiddle)
 
 //initial connection to mongodb
@@ -25,11 +29,6 @@ db_promise.then(function(db) {
 });
 
 //ROUTES
-
-//checkUser middleware is set up to check creds in Authorization header 
-//and return a "checked" object on the request going into the route handler
-//which is used to determine user status for the actions of the route handler
-
 //create new account
 app.post('/user', (req, res) => {
   if(req.checked.count===0){
@@ -43,7 +42,6 @@ app.post('/user', (req, res) => {
 
 //get existing account
 app.get('/user', (req, res) => {
-  console.log("Checked request: ", req.checked)
   if(req.checked.auth===true){
     res.status(200).send(req.checked.body)
   } else {

@@ -28,15 +28,26 @@ Monday
 - Target 
 - Switching to Slack web app in a pinned tab from desktop app—hopefully allows for better focus. Also stopping myself from checking Slack while I wait for masquerade links to user Zaps to open.
 - https://zapier.com/rover/app/ZapierFormatterDevAPI/issues/64/
-- Code bug
+- Escalated this weird Code bug
 
 Tuesday
 - Paid
 - 1:1 with @jesse. We discussed performance, minimizing Slack distractions, 360 review prep, and I gave them a tour/demo of the API I've been working on.
 - Steve guide through ticket
-- Sherpa session with @noah and @iterion. Always fun getting to hang out with these guys and I think we handled some meaty tickets!
+- Sherpa session with @noah and @iterion. Always fun getting to hang out with these guys and I think we handled some meaty tickets this week!
 - Support meeting
 
 Wednesday
 - Overdue
-- Out sick Wednesday morning, but some extra sleep and I bounced back for the afternoon
+- Out sick Wednesday morning, but some extra sleep and I bounced back for the afternoon. Really appreciate the flexibility and empathy of Zapier's work culture.
+- Facing my first 2FA recovery ticket, which seemed like a bear, and in the interesting of building the robot instead of being it, I made some recovery notification Zaps. Discussion in Slack here https://zapier.slack.com/archives/C024XC6AT/p1512588022000302, 
+- Pair buddies with @tony, who was able to squeeze me in after some lightning round app reviews. Really interesting to learn about his thoughts for how that process might scale
+
+Thursday
+- Tweaks to recovery notification Zaps
+- Demo-ed the UX Research Slack app as part of @eileen and @jesse's presentation on the awesome changes to the UX Research Database! So glad to have gotten to work with them on this project. If you use the bot and find. If you'd like to follow along with the process of creating it, check out these Friday Updates:
+- PomoDone bug ticket / slack t
+- Devapp ticket https://secure.helpscout.net/conversation/482852564/737277/
+
+Under Construction:
+- 

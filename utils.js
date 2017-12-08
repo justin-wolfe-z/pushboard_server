@@ -13,39 +13,6 @@ const sendEmail = (zapURL, message) => {
   });
 }
 
-const checkUser = (req) => {
-  return new Promise((resolve,reject)=>{
-    if(req.body.email){
-      let email = req.body.email
-      User.find({ email : email }, (err, users) => {
-        if (err){
-          reject(err)
-        } else {
-          if (users.length===0){
-            resolve({count:0, auth: false, body:''})
-          } else if (users.length===1){
-            if(req.body.key){
-              let key = req.body.key
-              let user = Object.assign({}, users[0]._doc,{
-                _id: 'REDACTED'
-              });
-              if(user.key===key){
-                resolve({count:1, auth:true, body:user})
-              } else {
-                reject('The API key you entered doesn\'t match')
-              }            
-            } else {
-              resolve({count:1, auth:false})
-            }
-          }
-        }
-      })
-    } else {
-      reject('You didn\'t include an email address')
-    }
-  })
-}
-
 const createUser = (email) => {
   return new Promise((resolve,reject)=>{
     var key = hat();
@@ -139,9 +106,19 @@ const push = (linkArr,button) => {
   })
 }
 
-const prepReqMiddle = (req,res,next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
-  next()
+//from https://gist.github.com/cuppster/2344435
+const allowCrossDomainMiddle = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); 
+    res.header('Access-Control-Max-Age', 1000); 
+    // intercept OPTIONS method
+    if ('OPTIONS' == req.method) {
+      res.status(200).send();
+    }
+    else {
+      next();
+    }
 }
 
 const checkUserMiddle = (req,res,next) => {
@@ -180,12 +157,11 @@ const checkUserMiddle = (req,res,next) => {
 
 module.exports = {
   sendEmail,
-  checkUser,
   createUser,
   updateUser,
   updateButton,
   resetKey,
   push,
-  prepReqMiddle,
+  allowCrossDomainMiddle,
   checkUserMiddle
 }
