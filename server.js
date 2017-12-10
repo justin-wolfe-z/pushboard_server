@@ -62,7 +62,7 @@ app.post('/reset', (req, res) => {
 
 //push to zap trigger URL(s)
 app.post('/push', (req, res) => {
-  let button = JSON.parse(req.body.button);
+  let button = req.body
   utils.push(req.checked.body.buttons[button.id].hookURL, button)
     .then(data => res.status(200).send(data))
     .catch(err => res.status(500).send('Error sending the push requests: ' + err))
