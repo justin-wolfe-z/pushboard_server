@@ -107,14 +107,20 @@ const push = (linkArr,button) => {
   })
 }
 
-const registerURL = (zapier, user) => {
+const manageHooks = (action, zapier, user) => {
   return new Promise((resolve,reject)=>{
     let query = {email: user.email}
     let buttons = user.body.buttons
     let currentHookArr = buttons[zapier.button].hookURL
-    console.log('current',currentHookArr)
-    currentHookArr.push(zapier.target_url)
-    console.log('updated',currentHookArr);
+    if(action==='subscribe'){
+      currentHookArr.push(zapier.target_url) 
+    } else if (action==='unsubscribe'){
+      for(var i=0; i<currentHookArr.length; i++){
+        if(currentHookArr[i] === zapier.target_url){
+          currentHookArr.splice(i,1)
+        }
+      }
+    }
     let update = {buttons: buttons}          
     updateUser(query,update)
       .then(data => {
@@ -185,5 +191,5 @@ module.exports = {
   push,
   allowCrossDomainMiddle,
   checkUserMiddle,
-  registerURL
+  manageHooks
 }

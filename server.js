@@ -81,9 +81,9 @@ app.post('/save', (req, res) => {
 })
 
 //register zap trigger URLs for pushing
-app.post('/register',  (req, res) => {
+app.post('/subscribe',  (req, res) => {
   if(req.checked.auth===true){
-    utils.registerURL(req.body,req.checked)
+    utils.manageHooks('subscribe',req.body,req.checked)
       .then(data => res.status(201).send())
       .catch(err => res.status(500).send("Error updating the database: " + err))
   } else {
@@ -92,8 +92,14 @@ app.post('/register',  (req, res) => {
 })
 
 //remove zap trigger URLs if Zap is deleted/turned off
-app.post('/delete',  (req, res) => {
-
+app.post('/unsubscribe',  (req, res) => {
+  if(req.checked.auth===true){
+    utils.manageHooks('unsubscribe',req.body,req.checked)
+      .then(data => res.status(200).send())
+      .catch(err => res.status(500).send("Error updating the database: " + err))
+  } else {
+    res.status(400).send('Your API key doesn\'t match :(')
+  }
 })
 
 app.listen(port);
