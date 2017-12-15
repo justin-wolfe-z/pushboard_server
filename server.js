@@ -82,7 +82,13 @@ app.post('/save', (req, res) => {
 
 //register zap trigger URLs for pushing
 app.post('/register',  (req, res) => {
-
+  if(req.checked.auth===true){
+    utils.registerURL(req.body,req.checked)
+      .then(data => res.status(201).send())
+      .catch(err => res.status(500).send("Error updating the database: " + err))
+  } else {
+    res.status(400).send('Your API key doesn\'t match :(')
+  }
 })
 
 //remove zap trigger URLs if Zap is deleted/turned off

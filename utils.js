@@ -107,6 +107,25 @@ const push = (linkArr,button) => {
   })
 }
 
+const registerURL = (zapier, user) => {
+  return new Promise((resolve,reject)=>{
+    let query = {email: user.email}
+    let buttons = user.body.buttons
+    let currentHookArr = buttons[zapier.button].hookURL
+    console.log('current',currentHookArr)
+    currentHookArr.push(zapier.target_url)
+    console.log('updated',currentHookArr);
+    let update = {buttons: buttons}          
+    updateUser(query,update)
+      .then(data => {
+        resolve()
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
 //from https://gist.github.com/cuppster/2344435
 const allowCrossDomainMiddle = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -165,5 +184,6 @@ module.exports = {
   resetKey,
   push,
   allowCrossDomainMiddle,
-  checkUserMiddle
+  checkUserMiddle,
+  registerURL
 }
