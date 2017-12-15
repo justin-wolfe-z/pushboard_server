@@ -1,48 +1,70 @@
-8-12
+8:15 - 9:15
+9:15 - 10:15
+10:15 - 11:15
+11:15 - 12:00 (45)
 
-2:15 - 3:15
+1 - 2
+2 - 3
 
-Slate - Free app
+4 - 5:15 (15)
 
-diary:
 
-https://cdn.zapier.com/storage/photos/af0285e6a0db88bff15375e97f920374.png
-_just some of the important work i did this week_
+11:30 - 12:30
+12:30 - 1:30
+1:30 - 2:30
 
-# Monday
-- Target 
-- This week, switching to Slack web app in a pinned tab from desktop app—hopefully allows for better focus. Also stopping myself from checking Slack while I wait for masquerade links to user Zaps to open, which is my other big flow-breaker, and instead trying to do a scheduled check-in every half hour
-- Created a Formatter FR that I think could be useful and not that hard to implement (see the ticket for a Truncate workaround you can use now): https://zapier.com/rover/app/ZapierFormatterDevAPI/issues/64/
-- Escalated this weird Code bug which @steve made a Loki issue of, interested to see what's up there
+3:30 - 4:30
+4:30 - 5:30
 
-# Tuesday
-- Paid
-- 1:1 with @jesse. We discussed performance, minimizing Slack distractions, 360 review prep, and I gave them a tour/demo of the API I've been working on.
-- Really appreciated @steve's check-ins as he worked through this tricky ticket @andra and I had gotten stuck on trying to get around Xero's poor sample data.
-- Sherpa session with @noah and @iterion. Always fun getting to hang out with these guys and I think we handled some meaty tickets this week! One more week and they'll be graduates!
-- Support meeting
+10:15 - 11:15
+11:15 - 12:20
 
-# Wednesday
-- Overdue
-- Out sick Wednesday morning, but some extra sleep and I bounced back for the afternoon. Really appreciate the flexibility and empathy of Zapier's work culture.
-- Facing my first 2FA recovery ticket, which seemed like a bear, and in the interesting of building the robot instead of being it, I made some recovery notification Zaps to send out the 24 . Discussion in Slack here https://zapier.slack.com/archives/C024XC6AT/p1512588022000302, 
-- Pair buddies with @tony, who was able to squeeze me in after some lightning round app reviews. Really interesting to learn about his thoughts for how that process might scale
+1:50 - 2:50
+2:50 - 3:50
 
-# Thursday
-- Tweaks to recovery notification Zaps
-- Demo-ed the UX Research Slack app as part of @eileen and @jesse's presentation on the awesome changes to the UX Research Database! So glad to have gotten to work with them on this project. If you use the bot and find. If you'd like to follow along with the process of creating it, check out these Friday Updates:
-- PomoDone bug ticket / slack / pun:
-- Devapp ticket https://secure.helpscout.net/conversation/482852564/737277/
+4:30 - 5:30
 
-# Friday
-- Don't be like me and pay attention to masquerade links in Rover!
-- Ticket pairing with @boyden. His first time working with a Code step, we submitted some UX feedback, and more! 
-- Really fun discussion with @andrew about interactive messages in Slack—really excited to see how he deploys them in the next iteration of SherpaBot
-- Shortened project time bc of some tough tickets/scheduling stuff, but I made a copy of the Help Scout app, switched it to use API Key instead of OAuth, created a bot user in HS, and built a quickie "Create Thread" action for adding threads to conversation. 
-- This was inspired by the recovery notification Zaps but there are lots of other uses (like adding more tags to particular tickets to make trends easier to track/gather data) that a more robust HS integration would make possible. Looking forward to refining this, adding more actions/options, and getting a version out for people to experiment with this week.
+7:45 - 8:45
+8:45 - 9:45
+9:45 - 10:45
+10:45 - 11:45
+11:45 - 12:45
 
-Under Construction:
-- Switched Pushboard server to storing auth information in the Authorization header instead of in query params or in the request body, also refactored check user function to be middleware instead of calling it from within the routes, resulting in even more compact routes!
-- In trying to get my Pushboard (locally hosted on one port) client and (locally hosted on another port) server connected and finding that I couldn't connect them, learned about CORS and how to handle preflight requests. I understand now, for example, why some APIs would be inclined to not store auth info in the header so that they could do simple requests that don't require the additional preflight request necessary to use the Authorization header. If anyone is interested in learning more, I found this very helpful: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
-- 
+3:30 - 4:30
+4:30 - 5:15
 
+8 - 9
+9 - 10
+10 - 11
+11 - 12
+12 - 12:30 (half)
+
+2:30 - 3:30
+3:30 - 4:30
+4:30 - 5:00 (half)
+
+
+Jesse's ticket suggestion
+
+Notification URL Could you please use the link and directions here (https://zapier.com/help/paypal/#check-your-notification-url-via-ipn-history) to check whether the Notification URL the Paypal sale information was sent to was the one for your Zap or was something else? If it's not being sent to the Zap, that's the issue right there—if it looks like it is being sent to the Zap URL, could you grab me a screenshot of what you see so I can take a look?
+
+
+
+
+Monday
+- Created this rover note about adding line item elements with the new Formatter: https://zapier.com/rover/app/ZapierFormatterDevAPI/notes/#note-2808
+- Hit 10,000 replies sent: https://cdn.zapier.com/storage/photos/d434b78df98f11cf6d36e7691e3c3708.png
+
+Tuesday
+- Lunch reports from Linds and Jess and the ensuing conversations are such a highlight of my day https://zapier.slack.com/archives/C024XC6AT/p1513084220000109
+- 1:1 with Jesse. We covered ticket review, and our intense shared dislike of being forced to dance. Jesse's ticket suggestions
+- Took a little project time because the queue was low and I'll be out Friday (when I normally do projects) for weekend support. Created and released an invite-only fork of the Help Scout app with actions for adding threads to conversations and setting
+
+Wednesday
+- Really great conversation with Erin about
+
+Thursday
+- ADF format - https://zapier.slack.com/archives/C024XC6AT/p1513261003000290
+- How to get new sample data - https://zapier.slack.com/archives/C024XC6AT/p1513263428000466
+- Escalation - https://zapier.slack.com/archives/C024XC6AT/p1513270158000428
+- ClickFunnels bug ticket with code snippet

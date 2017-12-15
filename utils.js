@@ -1,4 +1,5 @@
-hat = require('hat');
+hat = require('hat')
+atob = require('atob')
 
 const sendEmail = (zapURL, message) => {
   return new Promise((resolve, reject)=>{
@@ -123,9 +124,10 @@ const allowCrossDomainMiddle = function(req, res, next) {
 
 const checkUserMiddle = (req,res,next) => {
   if(req.headers.authorization){
-    let arr = req.headers.authorization.split(':')
-    let email = arr[0]
-    let key = arr[1]
+    let headerArr = req.headers.authorization.split(' ')
+    let authArr = atob(headerArr[1]).split(':')
+    let email = authArr[0]
+    let key = authArr[1]
     User.find({ email : email }, (err, users) => {
       if (err){res.status(500).send("Error accessing the database: " + err)
       } else {
