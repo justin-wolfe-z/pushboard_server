@@ -151,6 +151,7 @@ const checkUserMiddle = (req,res,next) => {
   if(req.headers.authorization){
     let headerArr = req.headers.authorization.split(' ')
     let authArr = atob(headerArr[1]).split(':')
+    console.log(authArr);
     let email = authArr[0]
     let key = authArr[1]
     User.find({ email : email }, (err, users) => {

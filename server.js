@@ -33,7 +33,7 @@ db_promise.then(function(db) {
 app.post('/user', (req, res) => {
   if(req.checked.count===0){
       utils.createUser(req.checked.email)
-        .then(data => res.status(201).send('Created a new user account. You should get an email with your API key in the next few minutes :)'))
+        .then(data => res.status(201).send({'status':'new','message':'Created a new user account. You should get an email with your API key in the next few minutes :)'}))
         .catch(err => res.status(500).send('Error creating a new account: ' + err))
   } else {
     res.status(409).send('This email address is already associated with an account.')
