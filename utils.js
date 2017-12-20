@@ -24,7 +24,7 @@ const createUser = (email) => {
       } else {
         sendEmail(constants.zaps.email, {email:user.email,text:constants.emails.signup,key:user.key})
           .then(data => {
-            resolve()
+            resolve(user)
           })
           .catch(err => {
             reject(err)
@@ -151,11 +151,10 @@ const checkUserMiddle = (req,res,next) => {
   if(req.headers.authorization){
     let headerArr = req.headers.authorization.split(' ')
     let authArr = atob(headerArr[1]).split(':')
-    console.log(authArr);
     let email = authArr[0]
     let key = authArr[1]
     User.find({ email : email }, (err, users) => {
-      if (err){res.status(500).send("Error accessing the database: " + err)
+      if (err){res.status(500).send({'status':'error','message':'Error accessing the database: ' + err + "'"})
       } else {
         if (users.length===0){
           req.checked = {count:0, auth: false, body:'', email: email}
@@ -169,7 +168,7 @@ const checkUserMiddle = (req,res,next) => {
               req.checked = {count:1, auth:true, body:user, email: email}
               next()
             } else {
-              res.status(400).send("The API key you entered doesn't match the database")
+              res.status(400).send({'status':'error','message':"The API key you entered doesn't match the database"})
             }            
           } else {
             req.checked = {count:1, auth:false, email: email}

@@ -33,19 +33,19 @@ db_promise.then(function(db) {
 app.post('/user', (req, res) => {
   if(req.checked.count===0){
       utils.createUser(req.checked.email)
-        .then(data => res.status(201).send({'status':'new','message':'Created a new user account. You should get an email with your API key in the next few minutes :)'}))
-        .catch(err => res.status(500).send('Error creating a new account: ' + err))
+        .then(data => res.status(201).send({'status':'new','body':data,'message':'Created a new user account. You should get an email with your API key in the next few minutes :)'}))
+        .catch(err => res.status(500).send({'status':'error','message':'Error creating a new account: ' + err + "'"}))
   } else {
-    res.status(409).send('This email address is already associated with an account.')
+    res.status(409).send({'status':'error','message':'This email address is already associated with an account.'})
   }
 })
 
 //get existing account
 app.get('/user', (req, res) => {
   if(req.checked.auth===true){
-    res.status(200).send(req.checked.body)
+    res.status(200).send({'status':'existing','body':req.checked.body})
   } else {
-    res.status(400).send('Your API key doesn\'t match :(')
+    res.status(400).send({'status':'error','message':'Your API key doesn\'t match :('})
   }
 })
 
