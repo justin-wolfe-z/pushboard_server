@@ -39,14 +39,15 @@ const updateButton = (email,buttons,updater) => {
     let query = {email: email}
     let updatedButton = Object.assign({}, buttons[updater.id],{
       icon: updater.icon,
+      label: updater.label,
       type: updater.type,
       text: updater.text
     })
     buttons[updater.id] = updatedButton
-    let update = {buttons: buttons}          
+    let update = {buttons: buttons}   
     updateUser(query,update)
       .then(data => {
-        resolve()
+        resolve(updatedButton)
       })
       .catch(err => {
         reject(err)

@@ -71,10 +71,10 @@ app.post('/push', (req, res) => {
 //save changes to buttons
 app.post('/save', (req, res) => {
   if(req.checked.auth===true){
-    let updater = JSON.parse(req.body.button);
+    let updater = req.body;
     utils.updateButton(req.checked.email, req.checked.body.buttons, updater)
-      .then(data => res.status(200).send("Updated buttons in database"))
-      .catch(err => res.status(500).send("Error updating the database: " + err))
+      .then(data => res.status(200).send({"status":"updated","message":"Updated button in database",body:data}))
+      .catch(err => res.status(500).send({"status":"error","message":"Error updating the database: " + err}))
   } else {
     res.status(400).send('Your API key doesn\'t match :(')
   }
