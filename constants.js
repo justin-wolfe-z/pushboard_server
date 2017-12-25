@@ -64,7 +64,7 @@ const constants = {
 		},
 		{
 			id:6,
-			icon:"clock",
+			icon:"grinning",
 			label:"6",
 			type:"static",
 			text:"Button 6 Text",
@@ -72,7 +72,7 @@ const constants = {
 		},
 		{
 			id:7,
-			icon:"lunch",
+			icon:"thinking_face",
 			label:"7",
 			type:"static",
 			text:"Button 7 Text",
