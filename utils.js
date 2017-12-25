@@ -47,7 +47,7 @@ const updateButton = (email,buttons,updater) => {
     let update = {buttons: buttons}   
     updateUser(query,update)
       .then(data => {
-        resolve(updatedButton)
+        resolve(buttons)
       })
       .catch(err => {
         reject(err)
