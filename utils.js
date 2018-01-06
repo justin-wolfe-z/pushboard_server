@@ -141,6 +141,7 @@ const allowCrossDomainMiddle = function(req, res, next) {
     res.header('Access-Control-Max-Age', 1000); 
     // intercept OPTIONS method
     if ('OPTIONS' == req.method) {
+      console.log(req)
       res.status(200).send();
     }
     else {
