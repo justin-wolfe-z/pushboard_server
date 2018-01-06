@@ -13,8 +13,8 @@ bodyParser = require('body-parser')
 
 //application level middleware
 app.use(utils.logger);
-//app.use(bodyParser.urlencoded({ extended: true }))
-app.use(express.json())
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 //allowCrossDomainMiddle is middleware that handles cross-domain requests (including the preflight request)
 app.use(utils.allowCrossDomainMiddle)
 //checkUserMiddle is middleware set up to check creds in Authorization header 
