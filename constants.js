@@ -20,7 +20,7 @@ const constants = {
 			label:"0",
 			type:"static",
 			text:"Button 0 Text",
-			hookURL:['https://hooks.zapier.com/hooks/catch/2003878/swt611/','https://hooks.zapier.com/hooks/catch/2003878/swt611/','https://hooks.zapier.com/hooks/catch/2003878/swt611/']
+			hookURL:[]
 		},
 		{
 			id:1,
