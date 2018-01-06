@@ -148,6 +148,11 @@ const allowCrossDomainMiddle = function(req, res, next) {
     }
 }
 
+const logger = function(req, res, next) {
+  console.log(req)
+  next()
+}
+
 const checkUserMiddle = (req,res,next) => {
   if(req.headers.authorization){
     let headerArr = req.headers.authorization.split(' ')

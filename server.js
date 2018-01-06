@@ -12,6 +12,7 @@ hat = require('hat');
 bodyParser = require('body-parser')
 
 //application level middleware
+app.use(utils.logger);
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 //allowCrossDomainMiddle is middleware that handles cross-domain requests (including the preflight request)
