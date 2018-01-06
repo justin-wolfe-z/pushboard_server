@@ -197,5 +197,6 @@ module.exports = {
   push,
   allowCrossDomainMiddle,
   checkUserMiddle,
-  manageHooks
+  manageHooks,
+  logger
 }
