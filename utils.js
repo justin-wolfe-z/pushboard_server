@@ -149,7 +149,9 @@ const allowCrossDomainMiddle = function(req, res, next) {
 }
 
 const logger = function(req, res, next) {
-  console.log(req)
+  console.log(req.method)
+  console.log(req.headers)
+  console.log(req.body)
   next()
 }
 
