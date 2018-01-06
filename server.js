@@ -23,9 +23,7 @@ app.use(utils.allowCrossDomainMiddle)
 app.use(utils.checkUserMiddle)
 
 //initial connection to mongodb
-const db_promise = mongoose.connect(constants.db.path, {
-  useMongoClient: true,
-});
+const db_promise = mongoose.connect(constants.db.path, {});
 db_promise.then(function(db) {
 });
 
