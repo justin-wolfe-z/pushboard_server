@@ -77,15 +77,7 @@ const constants = {
 			type:"static",
 			text:"Button 7 Text",
 			hookURL:[]
-		},
-		{
-			id:8,
-			icon:"apple",
-			label:"8",			
-			type:"static",
-			text:"Button 8 Text",
-			hookURL:[]
-		}					
+		}			
 	]
 }
 
