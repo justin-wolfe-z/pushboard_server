@@ -8,7 +8,8 @@ var usersSchema = new Schema({
 	key: String,
 	buttons: { type: Array, default: constants.defaultButtons },
 	accountHooks: Array,
-	logs: Array
+	logs: Array,
+	created: new Date().getTime()
 });
 
 var Users = mongoose.model('Users', usersSchema);
