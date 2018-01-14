@@ -22,7 +22,7 @@ const createUser = (email) => {
       if (err) {
         reject(err)
       } else {
-        sendEmail(constants.zaps.email, {email:user.email,text:constants.emails.signup,key:user.key})
+        sendEmail(constants.zaps.email, {email:user.email,text:constants.emails.signup,key:user.key,created: new Date()})
           .then(data => {
             resolve(user)
           })
