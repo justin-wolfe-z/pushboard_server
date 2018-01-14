@@ -38,7 +38,7 @@ const updateButton = (email,buttons,updater) => {
   return new Promise((resolve,reject)=>{
     let query = {email: email}
     let matchingButtonIndex = buttons.findIndex(function (obj) { return obj.id === updater.id; });
-    let updatedButton = Object.assign({}, buttons[updater.id],{
+    let updatedButton = Object.assign({}, buttons[matchingButtonIndex],{
       icon: updater.icon,
       type: updater.type,
       text: updater.text
