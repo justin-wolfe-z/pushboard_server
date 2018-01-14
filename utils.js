@@ -37,11 +37,7 @@ const createUser = (email) => {
 const updateButton = (email,buttons,updater) => {
   return new Promise((resolve,reject)=>{
     let query = {email: email}
-    console.log("updater");
-    console.log(updater);
     let matchingButtonIndex = buttons.findIndex(function (obj) { return obj.id === updater.id; });
-    console.log("matchingButton index")
-    console.log(matchingButtonIndex)
     let updatedButton = Object.assign({}, buttons[updater.id],{
       icon: updater.icon,
       type: updater.type,
