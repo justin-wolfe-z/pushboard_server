@@ -14,7 +14,7 @@ const constants = {
   		text: 'Thanks for signing up to Tap! Your account information is:'
   	},
   	reset: {
-  		title: 'Tap - API Key Reset'
+  		title: 'Tap - API Key Reset',
   		text: 'Your API key has been reset. Your account information is: '
 		}
   },
