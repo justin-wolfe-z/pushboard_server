@@ -9,8 +9,14 @@ const constants = {
     email: 'https://hooks.zapier.com/hooks/catch/2003878/ssrlnv/'
   },
   emails:{
-  	signup: 'Thanks for signing up to Pushboard! Your account information is:',
-  	reset: 'Your API key has been reset. Your account information is: '
+  	signup: {
+  		title: 'Welcome to Tap',
+  		text: 'Thanks for signing up to Tap! Your account information is:'
+  	},
+  	reset: {
+  		title: 'Tap - API Key Reset'
+  		text: 'Your API key has been reset. Your account information is: '
+		}
   },
   headers: {'Content-Type':'application/json'},
   defaultButtons : [
