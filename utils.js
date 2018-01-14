@@ -39,7 +39,7 @@ const updateButton = (email,buttons,updater) => {
     let query = {email: email}
     console.log("updater");
     console.log(updater);
-    let matchingButton = buttons.findIndex(function (obj) { return obj.id === updater.id; });
+    let matchingButtonIndex = buttons.findIndex(function (obj) { return obj.id === updater.id; });
     console.log("matchingButton index")
     console.log(matchingButton)
     let updatedButton = Object.assign({}, buttons[updater.id],{
@@ -47,7 +47,7 @@ const updateButton = (email,buttons,updater) => {
       type: updater.type,
       text: updater.text
     })
-    buttons[updater.id] = updatedButton
+    buttons[matchingButtonIndex] = updatedButton
     let update = {buttons: buttons}   
     updateUser(query,update)
       .then(data => {
