@@ -41,7 +41,7 @@ const updateButton = (email,buttons,updater) => {
     console.log(updater);
     let matchingButtonIndex = buttons.findIndex(function (obj) { return obj.id === updater.id; });
     console.log("matchingButton index")
-    console.log(matchingButton)
+    console.log(matchingButtonIndex)
     let updatedButton = Object.assign({}, buttons[updater.id],{
       icon: updater.icon,
       type: updater.type,
