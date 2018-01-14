@@ -39,7 +39,6 @@ const updateButton = (email,buttons,updater) => {
     let query = {email: email}
     let updatedButton = Object.assign({}, buttons[updater.id],{
       icon: updater.icon,
-      label: updater.label,
       type: updater.type,
       text: updater.text
     })

@@ -21,67 +21,59 @@ const constants = {
   headers: {'Content-Type':'application/json'},
   defaultButtons : [
 		{
-			id:0,
-			icon:"smiley",
-			label:"0",
-			type:"static",
-			text:"Button 0 Text",
-			hookURL:[]
-		},
-		{
 			id:1,
-			icon:"baby",
-			label:"1",
+			icon:"smiley",
 			type:"static",
 			text:"Button 1 Text",
 			hookURL:[]
 		},
 		{
 			id:2,
-			icon:"fish",
-			label:"2",
+			icon:"baby",
 			type:"static",
 			text:"Button 2 Text",
 			hookURL:[]
 		},
 		{
 			id:3,
-			icon:"car",
-			label:"3",
+			icon:"fish",
 			type:"static",
 			text:"Button 3 Text",
 			hookURL:[]
 		},
 		{
 			id:4,
-			icon:"dog",
-			label:"4",			
+			icon:"car",
 			type:"static",
 			text:"Button 4 Text",
 			hookURL:[]
 		},
 		{
 			id:5,
-			icon:"cat",
-			label:"5",
+			icon:"dog",
 			type:"static",
 			text:"Button 5 Text",
 			hookURL:[]
 		},
 		{
 			id:6,
-			icon:"grinning",
-			label:"6",
+			icon:"cat",
 			type:"static",
 			text:"Button 6 Text",
 			hookURL:[]
 		},
 		{
 			id:7,
-			icon:"thinking_face",
-			label:"7",
+			icon:"grinning",
 			type:"static",
 			text:"Button 7 Text",
+			hookURL:[]
+		},
+		{
+			id:8,
+			icon:"thinking_face",
+			type:"static",
+			text:"Button 8 Text",
 			hookURL:[]
 		}			
 	]
