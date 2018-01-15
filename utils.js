@@ -113,7 +113,7 @@ const manageHooks = (action, zapier, user) => {
     let query = {email: user.email}
     let buttons = user.body.buttons
     console.log("buttons",buttons)
-    let index = buttons.findIndex(function (obj) { return obj.id === zapier.button});
+    let index = buttons.findIndex(function (obj) { return obj.id === parseInt(zapier.button)});
     console.log("index",index)
     let currentHookArr = buttons[index].hookURL
     console.log("currentHookArr",currentHookArr)
