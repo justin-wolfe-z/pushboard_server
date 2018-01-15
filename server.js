@@ -82,7 +82,7 @@ app.post('/save', (req, res) => {
 //register zap trigger URLs for pushing
 app.post('/subscribe',  (req, res) => {
   if(req.checked.auth===true){
-    utils.manageHooks('subscribe',req.body,req.checked)
+    utils.manageHooks('subscribe', req.body, req.checked)
       .then(data => res.status(201).send())
       .catch(err => res.status(500).send("Error updating the database: " + err))
   } else {
@@ -93,7 +93,8 @@ app.post('/subscribe',  (req, res) => {
 //remove zap trigger URLs if Zap is deleted/turned off
 app.post('/unsubscribe',  (req, res) => {
   if(req.checked.auth===true){
-    utils.manageHooks('unsubscribe',req.body,req.checked)
+    console.log("UNSUBSCRIBE")
+    utils.manageHooks('unsubscribe', req.body, req.checked)
       .then(data => res.status(200).send())
       .catch(err => res.status(500).send("Error updating the database: " + err))
   } else {
