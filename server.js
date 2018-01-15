@@ -93,7 +93,8 @@ app.post('/subscribe',  (req, res) => {
 //remove zap trigger URLs if Zap is deleted/turned off
 app.post('/unsubscribe',  (req, res) => {
   if(req.checked.auth===true){
-    console.log("UNSUBSCRIBE")
+    console.log("UNSUBSCRIBE REQUEST")
+    console.log(req.body)
     utils.manageHooks('unsubscribe', req.body, req.checked)
       .then(data => res.status(200).send())
       .catch(err => res.status(500).send("Error updating the database: " + err))
@@ -103,7 +104,7 @@ app.post('/unsubscribe',  (req, res) => {
 })
 
 app.listen(port);
-console.log('pushboard_server started on: ' + port);
+console.log('tap_server started on: ' + port);
 
 
 
