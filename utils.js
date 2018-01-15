@@ -112,8 +112,11 @@ const manageHooks = (action, zapier, user) => {
   return new Promise((resolve,reject)=>{
     let query = {email: user.email}
     let buttons = user.body.buttons
+    console.log("buttons",buttons)
     let index = buttons.findIndex(function (obj) { return obj.id === zapier.button});
+    console.log("index",index)
     let currentHookArr = buttons[index].hookURL
+    console.log("currentHookArr",currentHookArr)
     if(action==='subscribe'){
       currentHookArr.push(zapier.target_url) 
     } else if (action==='unsubscribe'){
