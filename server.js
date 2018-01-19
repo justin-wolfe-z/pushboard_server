@@ -50,7 +50,8 @@ app.get('/user', (req, res) => {
   if(req.checked.auth===true){
     for(var button of req.checked.body.buttons){
       for(var emoji of emojis){
-        if(emoji.name.toLowerCase===button.icon){
+        let name = emoji.name.toLowerCase()
+        if(name===button.icon){
           console.log(emoji)
         }
       }
