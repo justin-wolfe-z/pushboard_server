@@ -41,17 +41,6 @@ app.post('/user', (req, res) => {
 //get existing account
 app.get('/user', (req, res) => {
   if(req.checked.auth===true){
-    /*for(var button of req.checked.body.buttons){
-      console.log("button " + button.id)
-      console.log("button name: " + button.icon)
-      for(var emoji of emojis){
-        for(var code of emoji.shortcodes){
-          if(code===button.icon){
-            console.log(emoji)
-          }
-        }
-      }
-    }*/
     res.status(200).send({'status':'existing','body':req.checked.body})
   } else {
     res.status(400).send({'status':'error','message':'Your API key doesn\'t match :('})
