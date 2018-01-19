@@ -10,6 +10,9 @@ mongoose.Promise = Promise;
 fetch = require('node-fetch');
 hat = require('hat');
 bodyParser = require('body-parser')
+emojis = require('emojibase-data/en/data.json');
+
+console.log(emojis)
 
 //application level middleware
 app.use(utils.logger);
