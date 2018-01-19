@@ -51,8 +51,8 @@ app.get('/user', (req, res) => {
 app.post('/reset', (req, res) => {
   if(req.checked.count===1){
     utils.resetKey(req.checked.email)
-      .then(data => res.status(200).send("Reset your API key. You should get an email containing it in the next few minutes :)"))
-      .catch(err => res.status(500).send({'status':'success','message':"Error resetting your API key: " + err}))
+      .then(data => res.status(200).send({'status':'success','message':"Reset your API key. You should get an email containing it in the next few minutes :)"}))
+      .catch(err => res.status(500).send({'status':'error','message':'Error resetting your API key: ' + err}))
   } else if (req.checked.count===0){
     res.status(400).send('No account with that email address')
   }
