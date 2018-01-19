@@ -11,12 +11,6 @@ fetch = require('node-fetch');
 hat = require('hat');
 bodyParser = require('body-parser')
 
-for(var test of emojis){
-  if(test.annotation==="goblin"){
-    console.log(test.hexcode)
-  }
-}
-
 //application level middleware
 app.use(utils.logger);
 app.use(bodyParser.json())
