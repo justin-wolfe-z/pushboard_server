@@ -136,7 +136,7 @@ const manageHooks = (action, zapier, user) => {
 
 //from https://gist.github.com/cuppster/2344435
 const allowCrossDomainMiddle = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'http://somedrafts.com/');
+    res.header('Access-Control-Allow-Origin', 'http://somedrafts.com/tap/');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization'); 
     res.header('Access-Control-Max-Age', 1000); 
