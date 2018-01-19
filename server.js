@@ -50,7 +50,7 @@ app.get('/user', (req, res) => {
   if(req.checked.auth===true){
     for(var button of req.checked.body.buttons){
       console.log("button " + button.id)
-      console.log("button name: " button.icon)
+      console.log("button name: " + button.icon)
       for(var emoji of emojis){
         for(var code of emoji.shortcodes){
           if(code===button.icon){
