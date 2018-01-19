@@ -10,7 +10,6 @@ mongoose.Promise = Promise;
 fetch = require('node-fetch');
 hat = require('hat');
 bodyParser = require('body-parser')
-emojis = require('emojibase-data/en/data.json');
 
 for(var test of emojis){
   if(test.annotation==="goblin"){
@@ -48,7 +47,7 @@ app.post('/user', (req, res) => {
 //get existing account
 app.get('/user', (req, res) => {
   if(req.checked.auth===true){
-    for(var button of req.checked.body.buttons){
+    /*for(var button of req.checked.body.buttons){
       console.log("button " + button.id)
       console.log("button name: " + button.icon)
       for(var emoji of emojis){
@@ -58,7 +57,7 @@ app.get('/user', (req, res) => {
           }
         }
       }
-    }
+    }*/
     res.status(200).send({'status':'existing','body':req.checked.body})
   } else {
     res.status(400).send({'status':'error','message':'Your API key doesn\'t match :('})
