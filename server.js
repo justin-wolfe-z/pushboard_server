@@ -12,7 +12,11 @@ hat = require('hat');
 bodyParser = require('body-parser')
 emojis = require('emojibase-data/en/data.json');
 
-console.log(emojis)
+for(var test of emojis){
+  if(test.annotation==="goblin"){
+    console.log(test.hexcode)
+  }
+}
 
 //application level middleware
 app.use(utils.logger);
@@ -44,6 +48,13 @@ app.post('/user', (req, res) => {
 //get existing account
 app.get('/user', (req, res) => {
   if(req.checked.auth===true){
+    for(var button of data.buttons){
+      for(var emoji of emojis){
+        if(emoji.annotation===button.icon){
+          console.log(emoji)
+        }
+      }
+    }
     res.status(200).send({'status':'existing','body':req.checked.body})
   } else {
     res.status(400).send({'status':'error','message':'Your API key doesn\'t match :('})
