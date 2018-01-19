@@ -48,7 +48,7 @@ app.post('/user', (req, res) => {
 //get existing account
 app.get('/user', (req, res) => {
   if(req.checked.auth===true){
-    for(var button of data.buttons){
+    for(var button of req.checked.body.buttons){
       for(var emoji of emojis){
         if(emoji.annotation===button.icon){
           console.log(emoji)
