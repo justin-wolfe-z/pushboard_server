@@ -46,9 +46,9 @@ app.post('/user', (req, res) => {
 //get existing account
 app.get('/user', (req, res) => {
   if(req.checked.auth===true){
+    //renders emoji for zap editor, move this to a util later
     for(var button of req.checked.body.buttons){
       button.render = emoji.get(button.icon);
-      console.log(button.render)
     }
     res.status(200).send({'status':'existing','body':req.checked.body})
   } else {
