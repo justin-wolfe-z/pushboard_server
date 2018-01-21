@@ -10,6 +10,7 @@ mongoose.Promise = Promise;
 fetch = require('node-fetch');
 hat = require('hat');
 bodyParser = require('body-parser')
+emoji = require('node-emoji')
 
 //application level middleware
 app.use(utils.logger);
@@ -45,6 +46,10 @@ app.post('/user', (req, res) => {
 //get existing account
 app.get('/user', (req, res) => {
   if(req.checked.auth===true){
+    for(var button of req.checked.body.buttons){
+      button.render = emoji.get(button.icon);
+      console.log(button.render)
+    }
     res.status(200).send({'status':'existing','body':req.checked.body})
   } else {
     res.status(400).send({'status':'error','message':'Your API key doesn\'t match :('})
