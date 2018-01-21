@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "content-filter": "^1.1.2",
     "emojibase": "^1.5.0",
     "emojibase-data": "^2.2.0"
   }

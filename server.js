@@ -11,10 +11,12 @@ fetch = require('node-fetch');
 hat = require('hat');
 bodyParser = require('body-parser')
 emoji = require('node-emoji')
+filter = require('content-filter')
 
 //application level middleware
 app.use(utils.logger);
 app.use(bodyParser.json())
+app.use(filter());
 //allowCrossDomainMiddle is middleware that handles cross-domain requests 
 app.use(utils.allowCrossDomainMiddle)
 //checkUserMiddle is middleware set up to check creds in Authorization header 
