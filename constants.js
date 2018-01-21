@@ -22,35 +22,35 @@ const constants = {
   defaultButtons : [
 		{
 			id:1,
-			icon:"smiley",
+			icon:"coffee",
 			type:"static",
 			text:"Button 1 Text",
 			hookURL:[]
 		},
 		{
 			id:2,
-			icon:"baby",
+			icon:"heart",
 			type:"static",
 			text:"Button 2 Text",
 			hookURL:[]
 		},
 		{
 			id:3,
-			icon:"fish",
+			icon:"stopwatch",
 			type:"static",
 			text:"Button 3 Text",
 			hookURL:[]
 		},
 		{
 			id:4,
-			icon:"car",
+			icon:"bento",
 			type:"static",
 			text:"Button 4 Text",
 			hookURL:[]
 		},
 		{
 			id:5,
-			icon:"dog",
+			icon:"evergreen_tree",
 			type:"static",
 			text:"Button 5 Text",
 			hookURL:[]
