@@ -28,6 +28,10 @@ db_promise.then(function(db) {
 
 //ROUTES
 //create new account
+app.get('/', (req, res) => {
+  res.status(200).send("Yep, site is up")
+})
+
 app.post('/user', (req, res) => {
   if(req.checked.count===0){
       utils.createUser(req.checked.email)
